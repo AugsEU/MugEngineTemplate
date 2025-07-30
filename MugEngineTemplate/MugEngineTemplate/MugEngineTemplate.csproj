@@ -23,8 +23,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Contentless" Version="4.2.0" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MugEngine\LDtkMonogame\LDtk\LDtk.csproj" />
+    <ProjectReference Include="..\..\MugEngine\MugEngine\MugEngine\MugEngine.csproj" />
+    <ProjectReference Include="..\..\MugEngine\TracyWrapper\TracyWrapper\TracyWrapper.csproj" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="CollectPackageReferences">
     <Message Text="Restoring dotnet tools (this might take a while depending on your internet speed and should only happen upon building your project for the first time, or after upgrading MonoGame, or clearing your nuget cache)" Importance="High" />

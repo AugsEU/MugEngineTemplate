@@ -1,52 +1,52 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
 
-namespace MugEngineTemplate
+namespace MugEngineTemplate;
+
+public class Main : MugMainGame
 {
-    public class Main : Game
-    {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+	public Main() : base(CreateGameSettings())
+	{
+		IsMouseVisible = true;
+	}
 
-        public Main()
-        {
-            _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "@Data";
-            IsMouseVisible = true;
-        }
+	protected override void Initialize()
+	{
+		Window.AllowUserResizing = true;
+		Window.Title = "MugEngineTemplate";
+		Content.RootDirectory = "@Data";
+		
 
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
+		base.Initialize();
 
-            base.Initialize();
-        }
+		InputConfig.SetDefaultButtons();
+		SetWindowSize(2.0f);
 
-        protected override void LoadContent()
-        {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+#if DEBUG
+		DRectLayer.NameLayers();
+		InitTuner<Tune>(Tuning.I, "@Data/Tune/Values.xml");
+#endif // DEBUG
+	}
 
-            // TODO: use this.Content to load your game content here
-        }
+	private static MugEngineSettings CreateGameSettings()
+	{
+		MugEngineSettings settings = new MugEngineSettings();
+		settings.mFPS = 60;
+		settings.mNumLayers = Layer.MAX_LAYERS;
+		settings.mResolution = new Point(640, 360);
 
-        protected override void Update(GameTime gameTime)
-        {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+		settings.mScreenTypes =
+			[
+				typeof(TitleScreen),
+				typeof(GameScreen),
+				typeof(WinScreen)
+			];
 
-            // TODO: Add your update logic here
 
-            base.Update(gameTime);
-        }
+		settings.mStartScreen = typeof(TitleScreen);
 
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
-            base.Draw(gameTime);
-        }
-    }
+		return settings;
+	}
 }
